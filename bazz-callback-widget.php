@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 //current version constant
-define( 'BAZZ_WIDGET_VERSION', '3.18' );
+define( 'BAZZ_WIDGET_VERSION', '3.19' );
 
 //activation hook
 register_activation_hook( __FILE__, 'bazz_install' );
