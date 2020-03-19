@@ -78,7 +78,7 @@ jQuery(document).ready(function(){
 		jQuery(".bazz-widget-form-submit").hide();
 		if (jQuery(".bazz_time").length >= 1) {
 			time = parseInt(jQuery(".bazz_time").text());
-			jQuery(".bazz-widget-form-top").append('<label class="countdown" style="text-align: center; font-size: 20px; color: #00AFF2;">00:<span>'+time+'</span>:<span>99</span></label>');
+			jQuery(".bazz-widget-form-top").append('<label class="countdown" style="text-align: center; font-size: 20px;">00:<span>'+time+'</span>:<span>99</span></label>');
 			current = parseInt(jQuery(".countdown span:first").text());
 			millisec = 99;
 			setInterval(function(){

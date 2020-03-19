@@ -205,6 +205,9 @@ function bazz_layout() { ?>
         .bazz-widget-inner-border, .bazz-widget-form-submit, .bazz-widget-name-close {
             border-color: <?php echo($bazz_options_arr['color_scheme']); ?>;
         }
+        .bazz-widget-form-top .countdown {
+            color: <?php echo($bazz_options_arr['color_scheme']); ?>;
+        }
 		<?php  if ( is_rtl() ) : ?>
 		.bazz-widget-form-top,
 		.bazz-widget-form-bottom {
