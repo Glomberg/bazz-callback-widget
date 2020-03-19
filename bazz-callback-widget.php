@@ -143,14 +143,15 @@ function bazz_widget_admin_scripts() {
 add_action( 'wp_ajax_bazz_widget_action', 'bazz_widget_send' );
 add_action( 'wp_ajax_nopriv_bazz_widget_action', 'bazz_widget_send' );
 function bazz_widget_send() {
-	if ( isset( $_POST['phone'] ) ) {
-		$phone = $_POST['phone'];
-	}
-	if ( isset( $_POST['name'] ) ) {
-		$name = $_POST['name'];
-	} else {
-		$name = __( "The client wasn't introduced", 'bazz-callback-widget' );
-	}
+
+    // Protection
+    if( empty( $_POST ) || ! wp_verify_nonce( $_POST['nonce'], 'bazz_widget_nonce') || $_POST['check'] !== '' ) {
+        wp_send_json_error( '<div style="color: #FFFFFF; font-size: 18px; line-height: 1.2; padding-top: 13px;">Forbidden!</div>' );
+    }
+
+    $phone            = isset( $_POST['phone'] )    ? $_POST['phone']    : '';
+    $name             = ! empty( $_POST['name'] )   ? $_POST['name']     : __( "The client wasn't introduced", 'bazz-callback-widget' );
+    $callback_page    = isset( $_POST['refferer'] ) ? $_POST['refferer'] : '';
 	$blog_url         = get_home_url();
 	$admin_email      = get_option( 'admin_email' );
 	$bazz_options_arr = get_option( 'bazz_options' );
@@ -165,15 +166,14 @@ function bazz_widget_send() {
 	$to      = $email;
 	$headers = "Content-type: text/plain; charset=utf-8\r\n";
 	$subject = "$blog_url " . __( '[FROM BAZZ WIDGET]', 'bazz-callback-widget' );
-	$message = __( 'Phone', 'bazz-callback-widget' ) . " - $phone " .
-	           __( 'Name', 'bazz-callback-widget' ) . " - $name";
+	$message = __( 'Phone', 'bazz-callback-widget' ) . " - $phone\n" .
+	           __( 'Name', 'bazz-callback-widget' ) . " - $name\n" .
+               __( 'From page', 'bazz-callback-widget' ) . " - " . $blog_url . $callback_page;
 	$send    = wp_mail( $to, $subject, $message, $headers );
-	if ( $send == 'true' ) {
-		echo( '<div style="color: #FFFFFF; font-size: 18px; line-height: 1.2; padding-top: 13px;">' . $text . '</div>' );
-		wp_die();
+	if ( $send ) {
+		wp_send_json_success( '<div style="color: #FFFFFF; font-size: 18px; line-height: 1.2; padding-top: 13px;">' . $text . '</div>' );
 	} else {
-		return false;
-		wp_die();
+		wp_send_json_error( '<div style="color: #FFFFFF; font-size: 18px; line-height: 1.2; padding-top: 13px;">Email sending error.</div>' );
 	}
 }
 //Change the name in the header FROM
@@ -255,7 +255,8 @@ function bazz_layout() { ?>
 					<?php } ?>
 					
                 </label>
-                <input type="text" value="<?php echo plugins_url( '', __FILE__ ); ?>" id="plugin-url" hidden/>
+                <input type="text" value="" name="bazz-widget-check" id="bazz-widget-check" hidden/>
+                <?php wp_nonce_field( 'bazz_widget_nonce','bazz-widget-nonce', true ); ?>
                 <input id="bazz-widget-phone" name="bazz-widget-phone" value="" type="tel"
                        placeholder="<?php _e( 'phone here', 'bazz-callback-widget' ); ?>"/>
                 <a href="javascript:void(0);"

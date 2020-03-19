@@ -137,12 +137,21 @@ jQuery(document).ready(function(){
 						action: 'bazz_widget_action',
 						phone: jQuery("#bazz-widget-phone").val().replace(/[\s\(\)-]/g, ''),
 						name: jQuery("#bazz-widget-name").val(),
+                        check: jQuery("#bazz-widget-check").val(),
+                        nonce: jQuery("#bazz-widget-nonce").val(),
+                        refferer: jQuery("[name=\"_wp_http_referer\"]").val(),
 					},
 					success: function(data) {
-						countdown();
-						setTimeout(function(){
-							jQuery(".bazz-widget-form").html(data);
-						}, time*1000);
+					    var msgText = data.data;
+					    if(data.success) {
+                            countdown();
+                            setTimeout(function(){
+                                jQuery(".bazz-widget-form").html(msgText);
+                            }, time*1000);
+                        } else {
+                            jQuery(".bazz-widget-form").html(msgText);
+                        }
+
 					}
 				});
 			}
