@@ -258,7 +258,7 @@ function bazz_layout() { ?>
                 <input type="text" value="" name="bazz-widget-check" id="bazz-widget-check" hidden/>
                 <?php wp_nonce_field( 'bazz_widget_nonce','bazz-widget-nonce', true ); ?>
                 <input id="bazz-widget-phone" name="bazz-widget-phone" value="" type="tel"
-                       placeholder="<?php _e( 'phone here', 'bazz-callback-widget' ); ?>"/>
+                       placeholder="<?php _e( 'Phone here', 'bazz-callback-widget' ); ?>"/>
                 <a href="javascript:void(0);"
                    class="bazz-widget-form-submit"><?php _e( 'Call me!', 'bazz-callback-widget' ); ?></a>
                 <div class="bazz-widget-form-info"></div>
