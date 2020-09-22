@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/bazzcallback
 Tags: bazz, callback, call, call back, call request 
 Requires at least: 3.0.1
 Tested up to: 5.4
-Stable tag: 3.19
+Stable tag: 3.20
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -55,6 +55,9 @@ Just install and activate the plugin, and the widget of a call-back Bazz CallBac
 2. Configuration here
 
 == Changelog ==
+
+= 3.20 - 22 September 2020 =
+* Fronend validation fixed.
 
 = 3.19 - 19 March 2020 =
 * Some layout updates.

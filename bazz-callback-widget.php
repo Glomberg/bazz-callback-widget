@@ -6,7 +6,7 @@ Text Domain: bazz-callback-widget
 Domain Path: /languages
 Description: This plugin makes a simple widget for callback on your website.
 Author: Viktor Ievlev
-Version: 3.19
+Version: 3.20
 Author URI: http://viktor-web.ru
 License: GPLv2
 */
