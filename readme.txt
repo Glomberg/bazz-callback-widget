@@ -53,9 +53,11 @@ Just install and activate the plugin, and the widget of a call-back Bazz CallBac
 The plugin has a custom event "bazzSuccessSubmit" triggered on success submitting the form. So you can listen to this event and handle it then it triggered.
 For example to follow yandex targets put on you page this code:
 (replace ID and name of target to yours)
+```
 document.addEventListener( 'bazzSuccessSubmit', function( event ) {
 	ym(111222333, 'reachGoal', 'NameOfTarget');
 }, false );
+```
 
 == Screenshots ==
 
