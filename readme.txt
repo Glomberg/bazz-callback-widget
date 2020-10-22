@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/bazzcallback
 Tags: bazz, callback, call, call back, call request 
 Requires at least: 3.0.1
 Tested up to: 5.4
-Stable tag: 3.20
+Stable tag: 3.21
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -48,6 +48,15 @@ Just install and activate the plugin, and the widget of a call-back Bazz CallBac
 3. If upon clicking the letter is sent (the result text is displayed), but do not come to the mail, check the logs of the mail server. The message may be stuck due to incorrect mail server settings or due to the blocked sending option. On some hosting sites, the mail server works in a limited mode or specifically filters notifications from WordPress. In this case, setting up sending messages through an external SMTP server (for example gmail) can help you. The easiest way to configure this is with the appropriate plugin (see google).
 4. Finally, check your spam folder for your mail :-).
 
+= How to attach google/yandex targets? =
+
+The plugin has a custom event "bazzSuccessSubmit" triggered on success submitting the form. So you can listen to this event and handle it then it triggered.
+For example to follow yandex targets put on you page this code:
+(replace ID and name of target to yours)
+document.addEventListener( 'bazzSuccessSubmit', function( event ) {
+	ym(111222333, 'reachGoal', 'NameOfTarget');
+}, false );
+
 == Screenshots ==
 
 1. The widget looks so same
@@ -55,6 +64,9 @@ Just install and activate the plugin, and the widget of a call-back Bazz CallBac
 2. Configuration here
 
 == Changelog ==
+
+= 3.21 - 22 October 2020 =
+* JS custom event "bazzSuccessSubmit" added.
 
 = 3.20 - 22 September 2020 =
 * Fronend validation fixed.

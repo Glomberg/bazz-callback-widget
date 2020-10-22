@@ -144,6 +144,11 @@ jQuery(document).ready(function(){
 					success: function(data) {
 					    var msgText = data.data;
 					    if(data.success) {
+							document.dispatchEvent(
+								new CustomEvent( "bazzSuccessSubmit", {
+									bubbles: true
+								} )
+							);
                             countdown();
                             setTimeout(function(){
                                 jQuery(".bazz-widget-form").html(msgText);
