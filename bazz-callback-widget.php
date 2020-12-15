@@ -132,7 +132,6 @@ function bazz_widget_scripts() {
 	);
 }
 
-add_action( 'admin_enqueue_scripts', 'bazz_widget_admin_scripts' );
 function bazz_widget_admin_scripts() {
 	wp_enqueue_script( 'jquery' );
 	wp_enqueue_script( 'bazz_slider', plugins_url( 'js/jquery.ui-slider.js', __FILE__ ), 'jquery' );
@@ -293,8 +292,9 @@ function plugin_settings_link( $links ) {
 
 add_action( 'admin_menu', 'bazz_widget_menu' );
 function bazz_widget_menu() {
-	add_options_page( 'Bazz CallBack Widget settins page', 'Bazz CallBack Widget settings', 'manage_options', 'bazz_menu', 'bazz_menu_page' );
-	add_action( 'admin_init', 'bazz_register_settings' );
+    $page = add_options_page( 'Bazz CallBack Widget settins page', 'Bazz CallBack Widget settings', 'manage_options', 'bazz_menu', 'bazz_menu_page' );
+    add_action( 'admin_init', 'bazz_register_settings' );
+    add_action( 'load-' . $page, 'bazz_widget_admin_scripts' );
 }
 
 function bazz_register_settings() {
