@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/bazzcallback
 Tags: bazz, callback, call, call back, call request 
 Requires at least: 3.0.1
 Tested up to: 5.6
-Stable tag: 3.21
+Stable tag: 3.22
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -66,6 +66,10 @@ document.addEventListener( 'bazzSuccessSubmit', function( event ) {
 2. Configuration here
 
 == Changelog ==
+
+= 3.22 - 22 December 2020 =
+* JS attaching fixed.
+* WP 5.6 support.
 
 = 3.21 - 22 October 2020 =
 * JS custom event "bazzSuccessSubmit" added.
