@@ -12,22 +12,22 @@ jQuery(document).ready(function(){
 			}, 100);
 		}
 	});
-	setTimeout(function animation(){
+	setTimeout(function bazz_animation(){
 		jQuery(".bazz-widget i:first").css("transform", "rotateY(180deg)");
 		jQuery(".bazz-widget i:last").css("transform", "rotateY(0deg)");
 		setTimeout(function(){
 			jQuery(".bazz-widget i").removeAttr("style");
 		}, 3000);
-		setTimeout(animation, 6000);
+		setTimeout(bazz_animation, 6000);
 	}, 6000);
-	setTimeout(function circle_animation() {
+	setTimeout(function bazz_circle_animation() {
 		jQuery(".bazz-widget-inner-circle").css("height","85px").css("width","85px").css("top","-10px").css("right","-10px");
 		setTimeout(function(){
 			jQuery(".bazz-widget-inner-circle").removeAttr("style");
 		}, 1000);
-		setTimeout(circle_animation, 2000);
+		setTimeout(bazz_circle_animation, 2000);
 	}, 2000);
-	setTimeout(function border_animation() {
+	setTimeout(function bazz_border_animation() {
 		jQuery(".bazz-widget-inner-border").animate({
 			"height": 125,
 			"width": 125,
@@ -37,7 +37,7 @@ jQuery(document).ready(function(){
 		}, 1500, function(){
 			jQuery(".bazz-widget-inner-border").removeAttr("style");
 		});
-		setTimeout(border_animation, 2000);
+		setTimeout(bazz_border_animation, 2000);
 	}, 2000);
 	
 	jQuery(".bazz-widget .bazz-widget-button").on("click", function(){
