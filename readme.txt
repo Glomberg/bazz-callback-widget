@@ -67,6 +67,10 @@ document.addEventListener( 'bazzSuccessSubmit', function( event ) {
 
 == Changelog ==
 
+= 3.23 - 19 March 2023 =
+* JS errors fixed.
+* WP 6.2 support.
+
 = 3.22 - 22 December 2020 =
 * JS attaching fixed.
 * WP 5.6 support.
