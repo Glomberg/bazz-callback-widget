@@ -2,8 +2,7 @@ name: Notice about releases via Telegram
 
 on:
   release:
-    types:
-      - published
+    types: [published]
 
 jobs:
 
