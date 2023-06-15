@@ -3,10 +3,7 @@ name: Notice about releases via Telegram
 on:
   release:
     types:
-      - released
-  push:
-    branches:
-      - master
+      - published
 
 jobs:
 
@@ -20,9 +17,7 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            ${{ github.actor }} created commit:
-            Commit message: ${{ github.event.commits[0].message }}
+            ${{ github.actor }} ${{github.event.release.name}} released
+            Release message: ${{ github.event.release.body }}
             
-            Repository: ${{ github.repository }}
-            
-            See changes: https://github.com/${{ github.repository }}/commit/${{github.sha}}
+            Release: ${{ github.event.release }}
