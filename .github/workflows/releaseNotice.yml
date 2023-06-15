@@ -15,8 +15,8 @@ jobs:
           to: ${{ secrets.TELEGRAM_TO }}
           token: ${{ secrets.TELEGRAM_TOKEN }}
           message: |
-            ${{ github.event.repository.description }} *v${{github.event.release.name}}* released
+            ${{ github.event.repository.description }} <strong>v${{github.event.release.name}}</strong> released
             ${{github.event.release.html_url}}
             
             ${{ github.event.release.body }}
-          format: markdown
+          disable_web_page_preview: true
