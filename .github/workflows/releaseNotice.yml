@@ -19,3 +19,7 @@ jobs:
             Release message: ${{ github.event.release.body }}
             
             Release: ${{ github }}
+      - name: Dump GitHub context
+        env:
+          GITHUB_CONTEXT: ${{ toJson(github) }}
+        run: echo "$GITHUB_CONTEXT"
