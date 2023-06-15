@@ -18,4 +18,4 @@ jobs:
             ${{ github.actor }} ${{github.event.release.name}} released
             Release message: ${{ github.event.release.body }}
             
-            Release: ${{ github.event.release }}
+            Release: ${{ github }}
