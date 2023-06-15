@@ -2,7 +2,8 @@ name: Notice about releases via Telegram
 
 on:
   release:
-    types: [released]
+    types:
+      - released
   push:
     branches:
       - master
