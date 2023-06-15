@@ -1,6 +1,11 @@
 name: Notice about releases via Telegram
 
-on: [push, release]
+on:
+  release:
+    types: [released]
+  push:
+    branches:
+      - master
 
 jobs:
 
