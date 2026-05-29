@@ -1,9 +1,9 @@
 === Bazz CallBack widget ===
 Contributors: glomberg
 Donate link: https://www.paypal.me/bazzcallback
-Tags: bazz, callback, call, call back, call request 
+Tags: bazz, callback, call, call back, call request
 Requires at least: 3.0.1
-Tested up to: 6.2
+Tested up to: 7.0
 Stable tag: 3.23
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
@@ -104,7 +104,7 @@ document.addEventListener( 'bazzSuccessSubmit', function( event ) {
 
 = 3.14 - 17 January 2018 =
 * Added Spanish (Mexico) language (thanks to Ruben Lara)
-* Added Swedish language (thanks to Alfons Passgård) 
+* Added Swedish language (thanks to Alfons Passgård)
 
 = 3.13 - 17 January 2018 =
 * Minor fixes.
