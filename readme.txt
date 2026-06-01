@@ -16,6 +16,8 @@ Looking for a simple callback widget for your WordPress site? Bazz CallBack allo
 You receive the details instantly by email. No complex setup – just install and activate.
 Perfect for service businesses, landing pages, and small websites that need a lightweight call back form.
 
+Spoiler: Messengers support for collect leads will be implemented soon (firstly for Telegram).
+
 Features:
 * RTL ready
 
