@@ -4,7 +4,7 @@ Donate link: https://www.paypal.me/bazzcallback
 Tags: callback widget, call back, request callback, lead generation, contact form
 Requires at least: 3.0.1
 Tested up to: 7.0
-Stable tag: 3.24
+Stable tag: 3.25
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 

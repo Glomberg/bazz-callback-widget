@@ -6,7 +6,7 @@ Text Domain: bazz-callback-widget
 Domain Path: /languages
 Description: This plugin makes a simple widget for callback on your website.
 Author: Viktor Ievlev
-Version: 3.24
+Version: 3.25
 Author URI: https://viktor-web.ru
 License: GPLv2
 */
@@ -34,7 +34,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 }
 
 //current version constant
-define( 'BAZZ_WIDGET_VERSION', '3.24' );
+define( 'BAZZ_WIDGET_VERSION', '3.25' );
 
 //activation hook
 register_activation_hook( __FILE__, 'bazz_install' );
