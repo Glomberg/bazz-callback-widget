@@ -68,6 +68,12 @@ document.addEventListener( 'bazzSuccessSubmit', function( event ) {
 
 == Changelog ==
 
+= 3.25 - June, 1, 2026 =
+* New. Adaptive support added.
+
+= 3.24 - May, 31, 2026 =
+* Tested up to 7.0
+
 = 3.23 - 19 March 2023 =
 * JS errors fixed.
 * WP 6.2 support.
