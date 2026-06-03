@@ -79,6 +79,9 @@ add_action( 'init', 'bazz_widget_add_new_options' );
 function bazz_widget_add_new_options() {
 	/* Add here new options */
 
+    //Added in 3.26
+    bazz_new_option('api_key', '');
+
 	//Added in 2.2
 	bazz_new_option( 'in_russia', '1' );
 
@@ -168,6 +171,7 @@ function bazz_widget_send() {
 	$message = __( 'Phone', 'bazz-callback-widget' ) . " - $phone\n" .
 	           __( 'Name', 'bazz-callback-widget' ) . " - $name\n" .
                __( 'From page', 'bazz-callback-widget' ) . " - " . $blog_url . $callback_page;
+    do_action('bazz_pre_send_email', $phone, $name, $blog_url . $callback_page);
 	$send    = wp_mail( $to, $subject, $message, $headers );
 	if ( $send ) {
 		wp_send_json_success( '<div style="color: #FFFFFF; font-size: 18px; line-height: 1.2; padding-top: 13px;">' . $text . '</div>' );
@@ -345,6 +349,37 @@ function bazz_menu_page() { ?>
                                                                                                   name="bazz_options[email]"
                                                                                                   value="<?php echo esc_attr( $bazz_options['email'] ); ?>"/></label>
         </div>
+        <div class="option-telegram">
+            <label for="bazz_options[send_telegram]">
+                <?php
+                _e( 'To send the message to Telegram messenger', 'bazz-callback-widget' ); ?>
+                <input type="checkbox" name="bazz_options[send_telegram]" id="bazz_options[send_telegram]" value="1" <?php if ( isset( $bazz_options['send_telegram'] ) && $bazz_options['send_telegram'] == 1 ) {
+                    echo( 'checked' );
+                } ?>
+            </label>
+            <div class="telegram_details">
+                <label for=""><?php _e( 'API key:', 'bazz-callback-widget' ); ?>
+                    <input type="text" name="bazz_options[api_key]" value="<?php echo esc_attr( $bazz_options['api_key'] ?? '' ); ?>"/>
+                </label>
+            <?php if (empty($bazz_options['api_key'])) { ?>
+                <a href="<?php echo bazz_get_connect_url(); ?>" target="_blank"><?php _e('Connect Telegram', 'bazz-callback-widget'); ?></a>
+            <?php }?>
+            </div>
+        </div>
+        <script>
+            jQuery(document).ready(function($) {
+                var $checkbox = $('input[name="bazz_options[send_telegram]"]');
+                var $details = $('.telegram_details');
+
+                // Функция которая показывает/скрывает в зависимости от состояния
+                function toggleDetails() {
+                    $details.toggle($checkbox.is(':checked'));
+                }
+
+                toggleDetails(); // применяем текущее состояние
+                $checkbox.on('change', toggleDetails);
+            });
+        </script>
         <div class="option-work-time">
             <input type="text" id="work-time-start" name="bazz_options[work_time_start]"
                    value="<?php echo esc_attr( $bazz_options['work_time_start'] ); ?>"/>
@@ -438,4 +473,44 @@ function bazz_menu_page() { ?>
     </form>
 <?php }
 
-?>
+// В functions.php или в основном файле плагина
+add_action('bazz_pre_send_email', 'bazz_send_telegram_lead');
+
+function bazz_send_telegram_lead() {
+    $bazz_options = get_option( 'bazz_options' );
+    $send_telegram = $bazz_options['send_telegram'] ?? '';
+    $api_key = $bazz_options['api_key'] ?? '';
+    $site_id = '123';
+
+    if ( $send_telegram && $api_key ) {
+        $response = wp_remote_post('https://bazz-callabck-bot.loc/?action=forward', [
+                'timeout' => 10,
+                'headers' => ['Content-Type' => 'application/json'],
+                'body' => json_encode([
+                        'api_key' => $api_key,
+                        'site_id' => $site_id,
+                        'lead' => [
+                                'name' => sanitize_text_field($_POST['name']),
+                                'phone' => sanitize_text_field($_POST['phone']),
+                                'comment' => sanitize_textarea_field($_POST['comment'])
+                        ]
+                ])
+        ]);
+
+        $body = json_decode(wp_remote_retrieve_body($response), true);
+        // Log response here
+    }
+}
+
+// В плагине WordPress генерируем уникальный site_id
+function bazz_get_connect_url() {
+    // Генерируем временный site_id (можно использовать ID записи в WP)
+    $tempSiteId = get_option('bazz_temp_site_id');
+    if (!$tempSiteId) {
+        $tempSiteId = rand(10000, 99999);
+        update_option('bazz_temp_site_id', $tempSiteId);
+    }
+
+    $botUsername = 'bazzCallBackDevBot';
+    return "https://t.me/{$botUsername}?start=site_{$tempSiteId}";
+}
