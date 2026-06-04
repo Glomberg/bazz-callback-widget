@@ -450,6 +450,8 @@ function bazz_menu_page() { ?>
 				} ?>><?php _e( 'No', 'bazz-callback-widget' ); ?></option>
             </select>
         </div>
+		<?php else : ?>
+            <input type="hidden" name="bazz_options[in_russia]" value="0" />
 		<?php endif; ?>
         <div class="option-bottom">
             <label for=""><?php _e( 'Distance from the window bottom', 'bazz-callback-widget' ); ?>
@@ -480,37 +482,49 @@ function bazz_send_telegram_lead() {
     $bazz_options = get_option( 'bazz_options' );
     $send_telegram = $bazz_options['send_telegram'] ?? '';
     $api_key = $bazz_options['api_key'] ?? '';
-    $site_id = '123';
+    $site_id = bazz_generate_site_id();
 
     if ( $send_telegram && $api_key ) {
-        $response = wp_remote_post('https://bazz-callabck-bot.loc/?action=forward', [
-                'timeout' => 10,
-                'headers' => ['Content-Type' => 'application/json'],
-                'body' => json_encode([
-                        'api_key' => $api_key,
-                        'site_id' => $site_id,
-                        'lead' => [
-                                'name' => sanitize_text_field($_POST['name']),
-                                'phone' => sanitize_text_field($_POST['phone']),
-                                'comment' => sanitize_textarea_field($_POST['comment'])
-                        ]
-                ])
-        ]);
+        $request_data = [
+            'timeout' => 10,
+            'headers' => ['Content-Type' => 'application/json'],
+            'body' => json_encode([
+                    'api_key' => $api_key,
+                    'site_id' => $site_id,
+                    'site_url' => get_site_url(),
+                    'site_name' => get_bloginfo('name'),
+                    'lead' => [
+                            'name' => sanitize_text_field($_POST['name']),
+                            'phone' => sanitize_text_field($_POST['phone']),
+                    ]
+            ])
+        ];
+        $response = wp_remote_post('https://bazz-callabck-bot.loc/?action=forward', $request_data);
 
         $body = json_decode(wp_remote_retrieve_body($response), true);
         // Log response here
     }
 }
 
-// В плагине WordPress генерируем уникальный site_id
 function bazz_get_connect_url() {
-    // Генерируем временный site_id (можно использовать ID записи в WP)
-    $tempSiteId = get_option('bazz_temp_site_id');
-    if (!$tempSiteId) {
-        $tempSiteId = rand(10000, 99999);
-        update_option('bazz_temp_site_id', $tempSiteId);
-    }
-
     $botUsername = 'bazzCallBackDevBot';
-    return "https://t.me/{$botUsername}?start=site_{$tempSiteId}";
+
+    $siteId = bazz_generate_site_id();
+
+    return "https://t.me/{$botUsername}?start=site_{$siteId}";
+}
+
+function bazz_generate_site_id() {
+    // Собираем уникальные и доступные данные для генерации ID
+    $siteUrl = get_site_url();
+    $siteName = get_bloginfo('name');
+    $adminEmail = get_option('admin_email');
+    $secretKey = '';
+
+    // Формируем уникальный идентификатор сайта
+    $siteData = $siteUrl . '|' . $siteName . '|' . $adminEmail;
+    $siteHash = hash_hmac('sha256', $siteData, $secretKey);
+
+    // Берем первые 16 символов для краткости (можно и полный хеш)
+    return substr($siteHash, 0, 16);
 }
