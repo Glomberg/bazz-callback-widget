@@ -36,6 +36,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 //current version constant
 define( 'BAZZ_WIDGET_VERSION', '3.25' );
 
+define('BAZZ_LEAD_CENTER_API_URL', 'https://bazz-callback.com/api/');
+define('BAZZ_LEAD_CENTER_TG_BOT', 'bazzCallBackBot');
+
 //activation hook
 register_activation_hook( __FILE__, 'bazz_install' );
 function bazz_install() {
@@ -297,8 +300,7 @@ $plugin_file = plugin_basename( __FILE__ );
 add_filter( "plugin_action_links_$plugin_file", 'plugin_settings_link' );
 function plugin_settings_link( $links ) {
 	$settings_links = array(
-		'<a href="options-general.php?page=bazz_menu">' . __( 'Settings', 'bazz-callback-widget' ) . '</a>',
-		'<a href="https://codecanyon.net/item/bazz-callback-widget-pro/19946676" target="_blank" style="color:#a00">PRO version</a>'
+		'<a href="options-general.php?page=bazz_menu">' . __( 'Settings', 'bazz-callback-widget' ) . '</a>'
 	);
 
 	foreach( $settings_links as $settings_link ) {
@@ -483,6 +485,7 @@ function bazz_send_telegram_lead() {
     $send_telegram = $bazz_options['send_telegram'] ?? '';
     $api_key = $bazz_options['api_key'] ?? '';
     $site_id = bazz_generate_site_id();
+    $api_url = apply_filters('bazz_lead_center_api_url', BAZZ_LEAD_CENTER_API_URL);
 
     if ( $send_telegram && $api_key ) {
         $request_data = [
@@ -497,9 +500,10 @@ function bazz_send_telegram_lead() {
                             'name' => sanitize_text_field($_POST['name']),
                             'phone' => sanitize_text_field($_POST['phone']),
                     ]
-            ])
+            ]),
+            'sslverify' => (defined('WP_ENVIRONMENT_TYPE') && WP_ENVIRONMENT_TYPE === 'development') ? false : true
         ];
-        $response = wp_remote_post('https://bazz-callabck-bot.loc/?action=forward', $request_data);
+        $response = wp_remote_post($api_url, $request_data);
 
         $body = json_decode(wp_remote_retrieve_body($response), true);
         // Log response here
@@ -507,7 +511,7 @@ function bazz_send_telegram_lead() {
 }
 
 function bazz_get_connect_url() {
-    $botUsername = 'bazzCallBackDevBot';
+    $botUsername = apply_filters('bazz_lead_center_tg_bot', BAZZ_LEAD_CENTER_TG_BOT);
 
     $siteId = bazz_generate_site_id();
 
