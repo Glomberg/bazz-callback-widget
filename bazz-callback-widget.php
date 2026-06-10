@@ -490,7 +490,10 @@ function bazz_send_telegram_lead() {
     if ( $send_telegram && $api_key ) {
         $request_data = [
             'timeout' => 10,
-            'headers' => ['Content-Type' => 'application/json'],
+            'headers' => [
+                    'Origin' => home_url(),
+                    'Content-Type' => 'application/json'
+            ],
             'body' => json_encode([
                     'api_key' => $api_key,
                     'site_id' => $site_id,
