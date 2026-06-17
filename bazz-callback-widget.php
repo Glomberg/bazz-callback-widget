@@ -477,6 +477,38 @@ function bazz_menu_page() { ?>
     </form>
 <?php }
 
+// Call API site verification during api-key saving
+add_action('update_option_bazz_options', 'bazz_update_options', 10, 2);
+function bazz_update_options($old_value, $new_value) {
+    if (
+            isset($old_value['api_key'], $new_value['api_key']) &&
+            empty($old_value['api_key']) &&
+            ! empty($new_value['api_key'])
+    ) {
+        $site_id = bazz_generate_site_id();
+        $api_key = $new_value['api_key'];
+        $api_url = apply_filters('bazz_lead_center_api_url', BAZZ_LEAD_CENTER_API_URL);
+        $request_data = [
+                'timeout' => 10,
+                'headers' => [
+                        'Origin' => home_url(),
+                        'Content-Type' => 'application/json'
+                ],
+                'body' => json_encode([
+                        'api_key' => $api_key,
+                        'site_id' => $site_id,
+                        'site_url' => get_site_url(),
+                        'site_name' => get_bloginfo('name'),
+                        'verify' => 1
+                ]),
+                'sslverify' => (defined('WP_ENVIRONMENT_TYPE') && WP_ENVIRONMENT_TYPE === 'development') ? false : true
+        ];
+        $response = wp_remote_post($api_url, $request_data);
+
+        $body = json_decode(wp_remote_retrieve_body($response), true);
+    }
+}
+
 // В functions.php или в основном файле плагина
 add_action('bazz_pre_send_email', 'bazz_send_telegram_lead');
 
@@ -497,8 +529,6 @@ function bazz_send_telegram_lead() {
             'body' => json_encode([
                     'api_key' => $api_key,
                     'site_id' => $site_id,
-                    'site_url' => get_site_url(),
-                    'site_name' => get_bloginfo('name'),
                     'lead' => [
                             'name' => sanitize_text_field($_POST['name']),
                             'phone' => sanitize_text_field($_POST['phone']),
