@@ -359,6 +359,7 @@ function bazz_menu_page() { ?>
                     echo( 'checked' );
                 } ?>
             </label>
+            <i>This function is in beta version</i>
             <div class="telegram_details">
                 <label for=""><?php _e( 'API key:', 'bazz-callback-widget' ); ?>
                     <input type="text" name="bazz_options[api_key]" value="<?php echo esc_attr( $bazz_options['api_key'] ?? '' ); ?>"/>
