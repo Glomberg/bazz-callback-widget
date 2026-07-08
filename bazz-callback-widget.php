@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 //current version constant
 define( 'BAZZ_WIDGET_VERSION', '3.25' );
 
-define('BAZZ_LEAD_CENTER_API_URL', 'https://bazz-callback.com/api/');
+define('BAZZ_LEAD_CENTER_API_URL', 'https://bazz-callback-bot.twc1.net/?action=forward');
 define('BAZZ_LEAD_CENTER_TG_BOT', 'bazzCallBackBot');
 
 //activation hook
